@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h2>Company Name: {{ employer_profile.company_name }}</h2>
+<p>Industry: {{ employer_profile.industry }}</p>
+<p>Location: {{ employer_profile.location }}</p>
+<p>Company description: {{ employer_profile.company_description }}</p>
+<p>Website: <a href="{{ employer_profile.website }}">{{ employer_profile.website }}</a></p>
+
+
+
+{% if user == employer_profile.user %}
+    <a href="{% url 'app_uff:edit_employer_profile' %}" target="_blank">Edit Profile</a>
+{% endif %}
+
+{% endblock %}

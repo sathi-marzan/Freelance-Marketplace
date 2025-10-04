@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Hello EMPLOYER!!!! {{request.user.username}}</h1>
+<a href="{% url 'app_uff:add_job' %}" class="btn btn-primary">Add Job</a>
+<h2>Your job posts:</h2>
+<ul>
+    {% for job in jobs %}
+        <li>
+            <a href="{% url 'app_uff:job_detail' job.id %}">{{ job.title }} - {{ job.location }} - {{ job.salary }}</a>
+            </li>
+    {% empty %}
+        <li>You have not posted any jobs yet.</li>
+    {% endfor %}
+
+</ul>
+
+{% endblock %}

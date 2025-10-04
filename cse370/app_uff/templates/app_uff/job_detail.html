@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{ job.title }} </h2>
+<p><i>posted by: <a href="{% url 'app_uff:employer_profile' employer.id %}">{{ job.employer_profile.company_name }}</a></i></p>
+<p>Location: {{ job.location }}</p>
+<p>Salary: {{ job.salary }}</p>
+<p>Vacancies: {{ job.vacancies }}</p>
+
+{% if user.is_freelancer and not applied and job.vacancies > 0 %}
+<form method="post" action="{% url 'app_uff:apply_job' job.id %}">
+    {% csrf_token %}
+    <button type="submit">Apply</button>
+</form>
+{% elif user.is_freelancer and not applied and job.vacancies == 0 %}
+    <p>The company has stopped taking applications, please check again later!</p>
+{% elif applied %}
+    <p>You have already applied for this job.</p>
+{% endif %}
+
+{% if user.is_employer and job.employer_profile.user == user %}
+    <h3>Applicants:</h3>
+    <ul>
+        {% for applicant in job.applicants.all %}
+        <li>
+            <a href="{% url 'app_uff:freelancer_profile' applicant.id %}">{{ applicant.user.username }}</a>
+            <form method="post" action="{% url 'app_uff:manage_application' job.id applicant.id %}">
+                {% csrf_token %}
+                <button type="submit" name="action" value="accept">Accept</button>
+                <button type="submit" name="action" value="reject">Reject</button>
+            </form>
+        </li>
+        {% empty %}
+        <li>No one has applied for this job yet.</li>
+        {% endfor %}
+    </ul>
+    <h3>Accepted Applicants:</h3>
+    <ul>
+        {% for a in lmao %}
+        <li>
+            <p>{{a.user}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    
+
+{% endif %}
+
+{% endblock %}

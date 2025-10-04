@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Hello, FREELANCER!!! {{request.user.username}}</h1>
+<h2>Available jobs</h2>
+<ol>
+{% for p in projects %}
+    <li>
+        <a href="{% url 'app_uff:job_detail' p.id %}">{{ p.title }}</a>
+    </li>
+
+{% endfor %}
+{% endblock %}
+</ol>

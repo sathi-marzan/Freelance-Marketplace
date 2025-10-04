@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+	{% if request.user.is_authenticated %}
+		{% if user.is_superuser %}
+			<p><a href="{% url 'app_uff:admin_panel' %}">Home</a> | <a href="{% url 'app_uff:logout' %}">Logout</a></p>
+		{% else %}
+			<p><a href="{% url 'app_uff:home' %}">Home</a> | <a href="{% url 'app_uff:logout' %}">Logout</a></p>
+		{% endif %}
+		{% if user.is_freelancer %}
+			<a href="{% url 'app_uff:freelancer_profile' user.freelancerprofile.id %}">Profile</a> |
+			<a class="nav-item"><a class="nav-link" href="{% url 'app_uff:job_offers' %}">Job Offers</a>
+		{% elif user.is_employer %}
+			<a href="{% url 'app_uff:employer_profile' user.employerprofile.id %}">Profile</a>
+		{% endif %}
+	<p>Hello, {{request.user.username}}</p>
+	{% else %}
+	<p><a href="{% url 'app_uff:home' %}">Home</a> | <a href="{% url 'app_uff:register' %}">Register</a> | <a href="{% url 'app_uff:login' %}">Login</a></p>
+	{% endif %}
+	<hr>
+	
+</head>
+
+<body>
+
+{% block content %}
+
+{% endblock content %}
+
+</body>
+
+<footer>
+	<hr>
+	<p>370 project</p>
+</footer>
+
+</html>

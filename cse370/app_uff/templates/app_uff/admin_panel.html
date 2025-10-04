@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Admin Panel</h1>
+
+<h2>Jobs</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Employer</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job.title }}</td>
+            <td>{{ job.employer_profile.company_name }}</td>
+            <td>
+                <a href="{% url 'app_uff:edit_job_admin' job.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'app_uff:delete_job_admin' job.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Users</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                {% if user.is_employer %}
+                    Employer
+                {% elif user.is_freelancer %}
+                    Freelancer
+                {% else %}
+                    User
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_active %}
+                    Active
+                {% else %}
+                    Suspended
+                {% endif %}
+            </td>
+            <td>
+                {% if user.is_active %}
+                    <a href="{% url 'app_uff:suspend_user_admin' user.id %}" class="btn btn-sm btn-warning">Suspend</a>
+                {% else %}
+                    <a href="{% url 'app_uff:activate_user_admin' user.id %}" class="btn btn-sm btn-success">Activate</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

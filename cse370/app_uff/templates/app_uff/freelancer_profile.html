@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>username: {{ freelancer_profile.user.username }}</p>
+<h2>Name: {{freelancer_profile.first_name}} {{freelancer_profile.last_name}}</h2>
+<h3>Age: {{ freelancer_profile.age }}</h3>
+<h3>Bio: {{ frelancer_profile.bio }}</h3>
+
+<h3>Skills: {{ freelancer_profile.skills }}</h3>
+{% if freelancer_profile.hourly_rate != None %}
+    <h3>Hourly Rate: {{ freelancer_profile.hourly_rate }}</h3>
+{% endif %}
+<h3></h3>
+
+
+{% if user == freelancer_profile.user %}
+    <a href="{% url 'app_uff:edit_freelancer_profile' %}">Edit Profile</a>
+{% endif %}
+
+{% endblock %}
